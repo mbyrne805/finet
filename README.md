@@ -15,13 +15,13 @@ Many modern financial network phenomena have been observed to be "scale-free". B
 This application will serve as a proof-of-concept for transforming financial data accessed through the Alpha Vantage Web API to a network-based representation in the Neo4j graph database. Entities and relationships will initially be loaded into and visualized by the database manually through the UI to provide reference points from which more intensive, automated analysis can be done in future endeavors.
 
 ### Scenario 1:
-Francis wants to use the Alpha Vantage API to identify stocks with a good chance of outperforming the market. He uses the finet UI to search for a stock, view summary data from the API, and then load the stock into the Neo4j database. The stock is represented in the database as a node entity, and Jim can enter pre-made tags in the UI such as "watch", "good sentiment", "bad sentiment", "trending up", "trending down", "technology", "energy", "automotive", etc. that will be used in the database to form relationships, referred to in graph theory as edges, between stock entities. For instance, if Jim views Stock 1 and saves it to the database with the "good sentiment" and "technology" tags, Stock 1 - "good sentiment" and Stock 1 - "technology" relationships will be created.
+Frank wants to use the Alpha Vantage API to identify stocks with a good chance of outperforming the market. He uses the finet UI to search for a stock, view summary data from the API, and then load the stock into the Neo4j database. The stock is represented in the database as a node entity, and Frank can enter tags in the UI such as "watch", "good sentiment", "bad sentiment", "trending up", "trending down", "technology", "energy", "automotive", etc. that will be used in the database to form relationships, referred to in graph theory as edges, between stock entities. For instance, if Frank views Stock 1 and saves it to the database with the "good sentiment" and "technology" tags, Stock 1 - "good sentiment" and Stock 1 - "technology" relationships will be created.
 
 ### Scenario 2:
-Mel has the same goals as Francis regarding analyzing stock performance, but also wants to establish direct relationships between various stocks to persist in the database. He can use the finet UI to search for a stock and then establish a relationship between an existing stock in the database by adding the name of the existing stock as a tag before saving.
+Tori has the same goals as Frank regarding analyzing stock performance but also wants to establish direct relationships between various stocks to persist in the database. She can use the finet UI to search for a stock and then establish a relationship between an existing stock in the database by adding the name of the existing stock as a tag before saving.
 
 ### Scenario 3:
-Noam wants to visualize the stock networks that have been created by Francis and/or Mel. He can navigate to the visualization page in the application, where the graphical data is served from the Neo4j database and visualized with a React library.
+Noam wants to visualize the stock networks that have been created by Frank and/or Tori. He can navigate to the visualization page in the application, where the graphical data is served from the Neo4j database and visualized with a React library.
 
 ## 3. Glossary
 
@@ -45,7 +45,7 @@ Relationship tags
 ## 4. High Level Requirement
 
 Search for a stock to retrieve summary stock data (MEMBER).
-Save the stock as a node entity in the database and establish relationships between the stock and one or more of the above-specified pre-made tags (MEMBER).
+Save the stock as a node entity in the database and establish relationships between the stock and one or more tags such as those specified above (MEMBER).
 Save the stock as a node entity in the database along with one or more of any previously saved stocks in the database to establish relationships between the stocks (Member).
 Visualize the stock network data on a page within the UI (Member).
 
@@ -65,7 +65,7 @@ Postcondition:
 The monthly stock data is displayed in chart form on the UI with a React library.
 
 ### Story 2:
-As a user, after I successfully search for a stock and view its summary data, I want to have the choice to persist it in the graph database by associating it to a node entity and creating a relationship between the stock and one or more relevant tags. The relationships are represented as edges between the stock node and any selected tag nodes. I select tags to use as the other nodes in the relationships by using the relationship input feature in the UI. Pre-made tags will automatically appear when entering text in this feature and can be selected using a drop-drown menu. After they are selected, I use a button to finalize the action and persist the stock entities and relationships in the database.
+As a user, after I successfully search for a stock and view its summary data, I want to have the choice to persist it in the graph database by associating it to a node entity and creating a relationship between the stock and one or more relevant tags. The relationships are represented as edges between the stock node and any selected tag nodes. I select tags to use as the other nodes in the relationships by using the relationship input feature in the UI. Pre-made tags will automatically appear when entering text in this feature and can be selected using a drop-drown menu. After tags are selected, I use a button to finalize the action and persist the stock entities and relationships in the database.
 
 Suggested data:
 Previously selected stock symbol to use for creation of the stock node entity
