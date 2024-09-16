@@ -1,4 +1,4 @@
-finet Capstone Proposal
+#finet Capstone Proposal
 
 1. Problem Statement
 
@@ -14,13 +14,13 @@ Many modern financial network phenomena have been observed to be "scale-free". B
 
 This application will serve as a proof-of-concept for transforming financial data accessed through the Alpha Vantage Web API to a network-based representation in the Neo4j graph database. Entities and relationships will initially be loaded into and visualized by the database manually through the UI to provide reference points from which more intensive, automated analysis can be done in future endeavors.
 
-Scenario 1
+Scenario 1:
 Francis wants to use the Alpha Vantage API to identify stocks with a good chance of outperforming the market. He uses the finet UI to search for a stock, view summary data from the API, and then load the stock into the Neo4j database. The stock is represented in the database as a node entity, and Jim can enter pre-made tags in the UI such as "watch", "good sentiment", "bad sentiment", "trending up", "trending down", "technology", "energy", "automotive", etc. that will be used in the database to form relationships, referred to in graph theory as edges, between stock entities. For instance, if Jim views Stock 1 and saves it to the database with the "good sentiment" and "technology" tags, Stock 1 - "good sentiment" and Stock 1 - "technology" relationships will be created.
 
-Scenario 2
+Scenario 2:
 Mel has the same goals as Francis regarding analyzing stock performance, but also wants to establish direct relationships between various stocks to persist in the database. He can use the finet UI to search for a stock and then establish a relationship between an existing stock in the database by adding the name of the existing stock as a tag before saving.
 
-Scenario 3
+Scenario 3:
 Noam wants to visualize the stock networks that have been created by Francis and/or Mel. He can navigate to the visualization page in the application, where the graphical data is served from the Neo4j database and visualized with a React library.
 
 3. Glossary
