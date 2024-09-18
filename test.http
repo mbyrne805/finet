@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/stock
+Content-Type: application/json
+
+{
+    "symbol": "AAPL",
+    "tags": [
+        {
+            "name": "technology"
+        }
+    ]
+}
