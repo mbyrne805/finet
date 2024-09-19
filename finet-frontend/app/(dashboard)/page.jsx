@@ -175,13 +175,19 @@ export default function HomePage() {
             {stockData && stockData != [] && <Chart data={stockData}/>}
           </Grid>
           <Grid size={6} sx={{padding: 1}}>
-            <TextField fullWidth id="fullWidth" label="Tags" variant="outlined" />
+            <TextField
+              fullWidth
+              id="fullWidth"
+              label="Tags"
+              variant="outlined"
+              value={tags || ''} 
+            />
           </Grid>
           <Grid size={6} sx={{padding: 1}}>
             <TextField fullWidth id="fullWidth" label="Related stocks" variant="outlined" />
           </Grid>
           <Grid size={12} sx={{padding: 1}}>
-            <Button fullWidth variant="contained">Add to network</Button>
+            <Button fullWidth variant="contained" onClick={addStockToNetwork}>Add to network</Button>
           </Grid>
         </>
         }
