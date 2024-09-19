@@ -17,11 +17,7 @@ const NAVIGATION: Navigation = [
     title: 'Query',
     icon: <QueryStatsIcon />,
   },
-  // {
-  //   segment: 'orders',
-  //   title: 'Orders',
-  //   icon: <ShoppingCartIcon />,
-  // },
+
   {
     segment: 'visualize',
     title: 'Visualize',
@@ -41,7 +37,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-toolpad-color-scheme="light" suppressHydrationWarning>
       <body>
-        
+
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             <AppProvider
               navigation={NAVIGATION}

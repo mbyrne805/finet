@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 export default function Layout(props: { children: React.ReactNode }) {
   return (
     <DashboardLayout>
-        <PageContainer sx={{paddingLeft: "30em"}}>{props.children}</PageContainer>
+        <PageContainer>{props.children}</PageContainer>
     </DashboardLayout>
   );
 }  
