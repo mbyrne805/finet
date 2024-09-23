@@ -1,6 +1,8 @@
 package learn.finet.models;
 
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -10,14 +12,21 @@ import java.util.Set;
 
 @Node
 public class Stock {
+
     @Id
     @GeneratedValue
+    @Null(message = "Id must be null.")
     private Long id;
 
+    @NotBlank(message = "Symbol is required.")
+    @Size(max = 7, message = "Symbol must be 7 characters or less.")
     private String symbol;
 
     @Relationship(type = "HAS_TAG", direction = Relationship.Direction.OUTGOING)
     private Set<Tag> tags;
+
+    @Relationship(type = "RELATED_TO", direction = Relationship.Direction.OUTGOING)
+    private Set<Stock> stocks;
 
     public Long getId() {
         return this.id;
@@ -43,20 +52,28 @@ public class Stock {
         this.tags = tags;
     }
 
+    public Set<Stock> getStocks() {
+        return this.stocks;
+    }
+
+    public void setStocks(Set<Stock> stocks) {
+        this.stocks = stocks;
+    }
+
     @Override
     public String toString() {
         return "Stock{" +
                 "id=" + id +
                 "symbol='" + symbol + '\'' +
                 ", tags=" + tags +
+                ", stocks=" + stocks +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Stock)) return false;
-        Stock stock = (Stock) o;
+        if (!(o instanceof Stock stock)) return false;
         return symbol.equals(stock.symbol);
     }
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StockRepository extends Neo4jRepository<Stock, Long> {
+
+    Stock findBySymbol(String symbol);
 }

@@ -15,14 +15,38 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    public Stock getStock(Long id) {
-        return stockRepository.findById(id).orElse(null);
-    }
+    public Result<Stock> save(Stock stock) {
+        Result<Stock> result = validate(stock);
+        if (!result.isSuccess()) {
+            return result;
+        }
 
-    public Result<Stock> saveStock(Stock stock) {
-        Result<Stock> result = new Result<>();
         Stock s = stockRepository.save(stock);
         result.setPayload(s);
+        return result;
+    }
+
+    private Result<Stock> validate(Stock stock) {
+        Result<Stock> result = new Result<>();
+
+        if (stock == null) {
+            result.addErrorMessage("stock cannot be null");
+            return result;
+        }
+
+        if (stock.getSymbol() == null || stock.getSymbol().isBlank()) {
+            result.addErrorMessage("symbol is required");
+        }
+
+        if (stock.getSymbol().length() > 7) {
+            result.addErrorMessage("symbol must be 7 characters or less");
+        }
+
+        Stock existing = stockRepository.findBySymbol(stock.getSymbol());
+        if (existing != null && !existing.getId().equals(stock.getId())) {
+            result.addErrorMessage("symbol must be unique");
+        }
+
         return result;
     }
 }

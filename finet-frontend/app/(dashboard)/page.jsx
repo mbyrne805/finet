@@ -171,7 +171,7 @@ export default function HomePage() {
           />
         </Grid>
         {stockData && stockData != [] && <>
-          <Grid size={12}>
+          <Grid size={12} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             {stockData && stockData != [] && <Chart data={stockData}/>}
           </Grid>
           <Grid size={6} sx={{padding: 1}}>
@@ -187,7 +187,14 @@ export default function HomePage() {
             <TextField fullWidth id="fullWidth" label="Related stocks" variant="outlined" />
           </Grid>
           <Grid size={12} sx={{padding: 1}}>
-            <Button fullWidth variant="contained" onClick={addStockToNetwork}>Add to network</Button>
+            <Button 
+              fullWidth 
+              variant="contained" 
+              sx={{ height: '56px', fontSize: '18px' }} 
+              onClick={addStockToNetwork}
+            >
+              Add to network
+            </Button>
           </Grid>
         </>
         }

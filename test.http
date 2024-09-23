@@ -2,10 +2,15 @@ POST http://localhost:8080/api/stock
 Content-Type: application/json
 
 {
-    "symbol": "AAPL",
+    "symbol": "AJAXZZZZZZZZZZZZZZ",
     "tags": [
         {
             "name": "technology"
+        }
+    ],
+    "stocks": [
+        {
+            "symbol": "AAPL"
         }
     ]
 }
