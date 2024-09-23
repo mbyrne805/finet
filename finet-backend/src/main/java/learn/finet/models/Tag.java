@@ -9,6 +9,14 @@ import org.springframework.data.neo4j.core.schema.Node;
 
 @Node
 public class Tag {
+
+    public Tag() {
+    }
+
+    public Tag(String name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue
     @Null(message = "Id must be null.")

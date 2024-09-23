@@ -13,6 +13,13 @@ import java.util.Set;
 @Node
 public class Stock {
 
+    public Stock() {
+    }
+
+    public Stock(String symbol) {
+        this.symbol = symbol;
+    }
+
     @Id
     @GeneratedValue
     @Null(message = "Id must be null.")
@@ -23,10 +30,10 @@ public class Stock {
     private String symbol;
 
     @Relationship(type = "HAS_TAG", direction = Relationship.Direction.OUTGOING)
-    private Set<Tag> tags;
+    private Set<Tag> tags = Set.of();
 
     @Relationship(type = "RELATED_TO", direction = Relationship.Direction.OUTGOING)
-    private Set<Stock> stocks;
+    private Set<Stock> stocks = Set.of();
 
     public Long getId() {
         return this.id;
