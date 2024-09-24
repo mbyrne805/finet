@@ -16,8 +16,10 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(String symbol) {
+    public Stock(String symbol, float xPos, float yPos) {
         this.symbol = symbol;
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
     @Id
@@ -34,6 +36,9 @@ public class Stock {
 
     @Relationship(type = "RELATED_TO", direction = Relationship.Direction.OUTGOING)
     private Set<Stock> stocks = Set.of();
+
+    float xPos;
+    float yPos;
 
     public Long getId() {
         return this.id;

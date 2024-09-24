@@ -10,8 +10,12 @@ public class StockRequest {
     @NotBlank(message = "Symbol is required.")
     @Size(max = 7, message = "Symbol must be 7 characters or less.")
     private String symbol;
+
     private Set<String> tags;
     private Set<String> relatedStocks;
+
+    private float xPos;
+    private float yPos;
 
     public StockRequest() {}
 
@@ -43,5 +47,13 @@ public class StockRequest {
 
     public void setRelatedStocks(Set<String> relatedStocks) {
         this.relatedStocks = relatedStocks;
+    }
+
+    public float getXPos() {
+        return xPos;
+    }
+
+    public float getYPos() {
+        return yPos;
     }
 }

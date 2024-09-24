@@ -39,7 +39,7 @@ public class StockController {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
 
-        Stock stock = new Stock(stockRequest.getSymbol());
+        Stock stock = new Stock(stockRequest.getSymbol(), stockRequest.getXPos(), stockRequest.getYPos());
         Set<String> tagNames = stockRequest.getTags();
         Set<String> relatedStockSymbols = stockRequest.getRelatedStocks();
 

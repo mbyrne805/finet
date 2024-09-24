@@ -2,12 +2,17 @@ POST http://localhost:8080/api/stock
 Content-Type: application/json
 
 {
-    "symbol": "GOOG",
+    "symbol": "GE",
     "tags": [
-        "technology"
+        "aerospace",
+        "manufacturing",
+        "defense"
     ],
     "relatedStocks": [
-        "AAPL"
+        "BA",
+        "RTX",
+        "LMT",
+        "GD"
     ]
 }
 
