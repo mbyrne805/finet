@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import Chart from './Chart';
 import Button from '@mui/material/Button';
+
 // @ts-nocheck
 // @ts-ignore
 export default function HomePage() {
