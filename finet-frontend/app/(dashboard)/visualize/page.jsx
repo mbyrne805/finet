@@ -16,8 +16,8 @@ const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
 export default function Home() {
 
-  const [nodes, setNodes] = React.useState(initialNodes);
-  const [edges, setEdges] = React.useState(initialEdges);
+  const [nodes, setNodes] = React.useState([]);
+  const [edges, setEdges] = React.useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/stock')
@@ -38,9 +38,27 @@ export default function Home() {
           stock.tags.forEach((tag) => {
             if (!tagSet.has(tag)) {
               tagSet.add(tag);
+              const nodeSize = 50; // Assuming each node is 50x50 pixels
+
+              const isOverlapping = (newNode, existingNodes) => {
+                return existingNodes.some(node => {
+                  const dx = newNode.position.x - node.position.x;
+                  const dy = newNode.position.y - node.position.y;
+                  return Math.abs(dx) < nodeSize && Math.abs(dy) < nodeSize;
+                });
+              };
+
+              const getNonOverlappingPosition = (existingNodes) => {
+                let position;
+                do {
+                  position = { x: Math.random() * 400, y: Math.random() * 400 };
+                } while (isOverlapping({ position }, existingNodes));
+                return position;
+              };
+
               newNodes.push({
                 id: `tag-${tag.name}`,
-                position: { x: Math.random() * 400, y: Math.random() * 400 },
+                position: getNonOverlappingPosition(newNodes),
                 data: { label: tag.name },
               });
             }
@@ -53,6 +71,7 @@ export default function Home() {
         });
         console.log(newNodes)
         setNodes(newNodes);
+        setEdges(newEdges);
       })
       .catch((error) => {
         console.log('Error:', error);
