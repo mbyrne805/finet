@@ -7,6 +7,8 @@ import learn.finet.models.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TagService {
 
@@ -23,8 +25,17 @@ public class TagService {
 
     public Result<Tag> saveTag(Tag tag) {
         Result<Tag> result = new Result<>();
-        Tag t = tagRepository.save(tag);
-        result.setPayload(t);
+        Optional<Tag> existingTag = tagRepository.findTagByName(tag.getName());
+
+        if (existingTag.isPresent()) {
+            Tag existing = existingTag.get();
+            existing.setXPos(tag.getXPos());
+            existing.setYPos(tag.getYPos());
+            tag = existing;
+        }
+
+        Tag savedTag = tagRepository.save(tag);
+        result.setPayload(savedTag);
         return result;
     }
 }

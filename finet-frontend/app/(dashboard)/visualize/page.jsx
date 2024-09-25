@@ -48,7 +48,27 @@ export default function Home() {
           console.error('Error:', error);
         });
     } else if (type === 'tag') {
-
+      const name = symbol;
+      console.log(nodeData);
+      fetch(`http://localhost:8080/api/tag/${name}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: nodeData.tagId != null ? nodeData.tagId : null,
+          name: name ? name : '',
+          xPos: node.position.x ? node.position.x : 0,
+          yPos: node.position.y ? node.position.y : 0,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     }
 
     console.log(`Node ${symbol} was dragged to position:`, node.position);
@@ -109,8 +129,8 @@ export default function Home() {
 
               newNodes.push({
                 id: `tag-${tag.name}`,
-                position: stock.xPos && stock.yPos ? { x: stock.xPos, y: stock.yPos } : getNonOverlappingPosition(newNodes),
-                data: { label: tag.name },
+                position: tag.xpos && tag.ypos ? { x: tag.xpos, y: tag.ypos } : getNonOverlappingPosition(newNodes),
+                data: { tagId: tag.id, label: tag.name },
                 draggable: true,
               });
             }
