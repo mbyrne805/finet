@@ -5,6 +5,10 @@ import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import Chart from './Chart';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 // @ts-nocheck
 // @ts-ignore
@@ -13,12 +17,12 @@ export default function HomePage() {
   const [stock, setStock] = React.useState(null);
   const [stockData, setStockData] = React.useState({
     "Meta Data": {
-        "1. Information": "Monthly Adjusted Prices and Volumes",
+        "1. Information": "Monthly Prices and Volumes",
         "2. Symbol": "IBM",
         "3. Last Refreshed": "2024-09-18",
         "4. Time Zone": "US/Eastern"
     },
-    "Monthly Adjusted Time Series": {
+    "Monthly Time Series": {
       "2024-09-18": {
           "1. open": "201.9100",
           "2. high": "218.8400",
@@ -129,13 +133,21 @@ export default function HomePage() {
       },
     }
   });
+  // const [stockData, setStockData] = React.useState(null);
   const [tags, setTags] = React.useState(null);
+  const [stocks, setStocks] = React.useState(null);
+  const [success, setSuccess] = React.useState(false);
+  const [failure, setFailure] = React.useState(false);
+  const [failureMessage, setFailureMessage] = React.useState("");
 
   const fetchStockData = () => {
     if (stock) {
       fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${stock}&apikey=demo`)
         .then(response => response.json())
-        .then(data => setStockData(data))
+        .then((data) => {
+          console.log(data);
+          setStockData(data)
+        })
         .catch(error => console.log('Error fetching stock data:'));
     }
   };
@@ -144,13 +156,34 @@ export default function HomePage() {
     fetch("http://localhost:8080/api/stock", {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+      'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        stock: stock,
-        tags: tags
+      symbol: stock,
+      tags: tags,
+      relatedStocks: stocks
       })
     })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(data => {
+          throw new Error(data[0]);
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      setSuccess(true);
+      setTags(null);
+      setStocks(null);
+      setStock(null);
+      setStockData(null);
+    })
+    .catch(error => {
+      console.log('Error adding stock:', error);
+      setFailure(true);
+      setFailureMessage(error.message);
+    });
   }
 
   return (    
@@ -181,11 +214,41 @@ export default function HomePage() {
               id="fullWidth"
               label="Tags"
               variant="outlined"
-              value={tags || ''} 
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setTags(prevTags => [...(prevTags || []), e.target.value]);
+                  e.target.value = '';
+                }
+              }}
             />
           </Grid>
           <Grid size={6} sx={{padding: 1}}>
-            <TextField fullWidth id="fullWidth" label="Related stocks" variant="outlined" />
+            <TextField 
+              fullWidth
+              id="fullWidth"
+              label="Related stocks" 
+              variant="outlined"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setStocks(prevStocks => [...(prevStocks || []), e.target.value]);
+                  e.target.value = '';
+                }
+              }}
+            />
+          </Grid>
+          <Grid size={6} sx={{padding: 1}}>
+            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+              {tags && tags.map((tag, index) => (
+                <Chip key={index} label={tag} sx={{ margin: 0.5 }} />
+              ))}
+            </Stack>
+          </Grid>
+          <Grid size={6} sx={{padding: 1}}>
+            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+              {stocks && stocks.map((stock, index) => (
+                <Chip key={index} label={stock} sx={{ margin: 0.5 }} />
+              ))}
+            </Stack>
           </Grid>
           <Grid size={12} sx={{padding: 1}}>
             <Button 
@@ -197,7 +260,23 @@ export default function HomePage() {
               Add to network
             </Button>
           </Grid>
-        </>
+          </>
+        }
+        { 
+          success &&
+          <Grid size={12} sx={{padding: 1}}>
+            <Alert severity="success" onClose={() => setSuccess(false)}>
+              Save was successful.
+            </Alert>
+          </Grid>
+        }
+        {
+          failure &&
+          <Grid size={12} sx={{padding: 1}}>
+            <Alert severity="error" onClose={() => setFailure(false)}>
+              {failureMessage}
+            </Alert>
+          </Grid>
         }
       </Grid>
     </Paper>

@@ -6,9 +6,9 @@ import { ContinuousColorLegend } from '@mui/x-charts';
 // @ts-ignore
 export default function Chart({ data }) {
   console.log(data)
-  const opens = Object.keys(data['Monthly Adjusted Time Series'])
+  const opens = Object.keys(data['Monthly Time Series'])
     .slice(0, 12)
-    .map(key => parseFloat(data['Monthly Adjusted Time Series'][key]['1. open']))
+    .map(key => parseFloat(data['Monthly Time Series'][key]['1. open']))
     .reverse();
 
   return (

@@ -82,22 +82,22 @@ public class StockService {
         Result<Stock> result = new Result<>();
 
         if (stock == null) {
-            result.addErrorMessage("stock cannot be null");
+            result.addErrorMessage("Stock cannot be null.");
             return result;
         }
 
         if (stock.getSymbol() == null || stock.getSymbol().isBlank()) {
-            result.addErrorMessage("symbol is required");
+            result.addErrorMessage("Symbol is required.");
         }
 
         if (stock.getSymbol().length() > 7) {
-            result.addErrorMessage("symbol must be 7 characters or less");
+            result.addErrorMessage("Symbol must be 7 characters or less.");
         }
 
         Stock existing = stockRepository.findStockBySymbol(stock.getSymbol()).orElse(null);
 
         if (existing != null && !existing.getId().equals(stock.getId())) {
-            result.addErrorMessage("symbol must be unique");
+            result.addErrorMessage("Symbol must be unique.");
         }
 
         return result;
