@@ -51,20 +51,27 @@ public class StockService {
         Stock stockToSave = existingStock.orElse(stock);
 
         Set<Tag> tags = new HashSet<>();
-        for (String tagName : tagNames) {
-            Optional<Tag> existingTag = tagRepository.findTagByName(tagName);
-            Tag tag = existingTag.orElseGet(() -> new Tag(tagName));
-            tags.add(tag);
+        if (tagNames != null) {
+            for (String tagName : tagNames) {
+                Optional<Tag> existingTag = tagRepository.findTagByName(tagName);
+                Tag tag = existingTag.orElseGet(() -> new Tag(tagName));
+                tags.add(tag);
+            }
         }
         stockToSave.setTags(tags);
 
         Set<Stock> relatedStocks = new HashSet<>();
-        for (String relatedStockSymbol : relatedStockSymbols) {
-            Optional<Stock> existingRelatedStock = stockRepository.findStockBySymbol(relatedStockSymbol);
-            Stock relatedStock = existingRelatedStock.orElseGet(() -> new Stock(relatedStockSymbol));
-            relatedStocks.add(relatedStock);
+        if (relatedStockSymbols != null) {
+            for (String relatedStockSymbol : relatedStockSymbols) {
+                Optional<Stock> existingRelatedStock = stockRepository.findStockBySymbol(relatedStockSymbol);
+                Stock relatedStock = existingRelatedStock.orElseGet(() -> new Stock(relatedStockSymbol));
+                relatedStocks.add(relatedStock);
+            }
         }
         stockToSave.setStocks(relatedStocks);
+
+        stockToSave.setXPos(stock.getXPos());
+        stockToSave.setYPos(stock.getYPos());
 
         Stock s = stockRepository.save(stockToSave);
         result.setPayload(s);
@@ -88,6 +95,7 @@ public class StockService {
         }
 
         Stock existing = stockRepository.findStockBySymbol(stock.getSymbol()).orElse(null);
+
         if (existing != null && !existing.getId().equals(stock.getId())) {
             result.addErrorMessage("symbol must be unique");
         }

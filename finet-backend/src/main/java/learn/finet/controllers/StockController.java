@@ -46,4 +46,21 @@ public class StockController {
         Result<?> saveResult = stockService.saveStock(stock, tagNames, relatedStockSymbols);
         return toResponseEntity(saveResult, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{symbol}")
+    public ResponseEntity<?> updateStock(
+            @PathVariable String symbol,
+            @RequestBody @Valid StockRequest stockRequest,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+
+        Stock stock = new Stock(stockRequest.getId(), symbol, stockRequest.getXPos(), stockRequest.getYPos());
+        Set<String> tagNames = stockRequest.getTags();
+        Set<String> relatedStockSymbols = stockRequest.getRelatedStocks();
+
+        Result<?> saveResult = stockService.saveStock(stock, tagNames, relatedStockSymbols);
+        return toResponseEntity(saveResult, HttpStatus.OK);
+    }
 }

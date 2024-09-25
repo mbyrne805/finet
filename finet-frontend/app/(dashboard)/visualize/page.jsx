@@ -22,18 +22,22 @@ export default function Home() {
 
   const handleNodeDragStop = (event, node) => {
     const [type, symbol] = node.id.split('-');
+    const nodeData = nodes.find(n => n.id === node.id)?.data || {};
+    console.log(nodeData.stockId);
     if (type === 'stock') {
       fetch(`http://localhost:8080/api/stock/${symbol}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          symbol: symbol,
-          tags: node.data.tags,
-          stocks: node.data.stocks,
-          xPos: node.position.x,
-          yPos: node.position.y 
+          id: nodeData.stockId != null ? nodeData.stockId : null,
+          symbol: symbol ? symbol : '',
+          tags: Array.isArray(nodeData.tags) ? nodeData.tags.map(tag => tag.name) : [],
+          relatedStocks: Array.isArray(nodeData.stocks) ? nodeData.stocks.map(stock => stock.symbol) : [],
+          xPos: node.position.x ? node.position.x : 0,
+          yPos: node.position.y ? node.position.y : 0,
+          test: "test"
         }),
       })
         .then(response => response.json())
@@ -73,6 +77,7 @@ export default function Home() {
         const tagSet = new Set();
 
         data.forEach((stock) => {
+          console.log(stock)
           const nodeSize = 100;
 
           const isOverlapping = (newNode, existingNodes) => {
@@ -93,8 +98,8 @@ export default function Home() {
 
           newNodes.push({
             id: `stock-${stock.symbol}`,
-            position: stock.xPos && stock.yPos ? { x: stock.xPos, y: stock.yPos } : getNonOverlappingPosition(newNodes),
-            data: { label: stock.symbol, tags: stock.tags, stocks: stock.stocks },
+            position: stock.xpos && stock.ypos ? { x: stock.xpos, y: stock.ypos } : getNonOverlappingPosition(newNodes),
+            data: { stockId: stock.id, label: stock.symbol, tags: stock.tags, stocks: stock.stocks },
             draggable: true,
           });
 

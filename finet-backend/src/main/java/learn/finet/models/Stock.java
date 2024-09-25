@@ -16,7 +16,18 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(String symbol, float xPos, float yPos) {
+    public Stock(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public Stock(String symbol, Double xPos, Double yPos) {
+        this.symbol = symbol;
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
+    public Stock(Long id, String symbol, Double xPos, Double yPos) {
+        this.id = id;
         this.symbol = symbol;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -37,8 +48,8 @@ public class Stock {
     @Relationship(type = "RELATED_TO", direction = Relationship.Direction.OUTGOING)
     private Set<Stock> stocks = Set.of();
 
-    float xPos;
-    float yPos;
+    Double xPos;
+    Double yPos;
 
     public Long getId() {
         return this.id;
@@ -70,6 +81,22 @@ public class Stock {
 
     public void setStocks(Set<Stock> stocks) {
         this.stocks = stocks;
+    }
+
+    public Double getXPos() {
+        return this.xPos;
+    }
+
+    public void setXPos(Double xPos) {
+        this.xPos = xPos;
+    }
+
+    public Double getYPos() {
+        return this.yPos;
+    }
+
+    public void setYPos(Double yPos) {
+        this.yPos = yPos;
     }
 
     @Override
