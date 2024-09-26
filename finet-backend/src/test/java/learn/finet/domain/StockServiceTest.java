@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,17 +35,17 @@ class StockServiceTest {
 
         when(repository.save(any())).thenReturn(expected);
 
-        Result<Stock> actual = service.save(arg);
+        Result<Stock> actual = service.saveStock(arg, Set.of(), Set.of());
         assertEquals(ResultType.SUCCESS, actual.getType());
         assertEquals(expected, actual.getPayload());
     }
 
     @Test
     void shouldNotAddNull() {
-        Result<Stock> actual = service.save(null);
+        Result<Stock> actual = service.saveStock(null, Set.of(), Set.of());
         assertEquals(ResultType.INVALID, actual.getType());
         assertEquals(1, actual.getErrorMessages().size());
-        assertEquals("stock cannot be null", actual.getErrorMessages().get(0));
+        assertEquals("Stock cannot be null.", actual.getErrorMessages().get(0));
     }
 
     @Test
@@ -52,10 +53,10 @@ class StockServiceTest {
         Stock arg = new Stock();
         arg.setSymbol(" ");
 
-        Result<Stock> actual = service.save(arg);
+        Result<Stock> actual = service.saveStock(arg, Set.of(), Set.of());
         assertEquals(ResultType.INVALID, actual.getType());
         assertEquals(1, actual.getErrorMessages().size());
-        assertEquals("symbol is required", actual.getErrorMessages().get(0));
+        assertEquals("Symbol is required.", actual.getErrorMessages().get(0));
     }
 
     @Test
@@ -63,10 +64,10 @@ class StockServiceTest {
         Stock arg = new Stock();
         arg.setSymbol("ABCDEFGHI");
 
-        Result<Stock> actual = service.save(arg);
+        Result<Stock> actual = service.saveStock(arg, Set.of(), Set.of());
         assertEquals(ResultType.INVALID, actual.getType());
         assertEquals(1, actual.getErrorMessages().size());
-        assertEquals("symbol must be 7 characters or less", actual.getErrorMessages().get(0));
+        assertEquals("Symbol must be 7 characters or less.", actual.getErrorMessages().get(0));
     }
 
     @Test
@@ -80,9 +81,9 @@ class StockServiceTest {
 
         when(repository.findStockBySymbol("AAPL")).thenReturn(Optional.of(existing));
 
-        Result<Stock> actual = service.save(arg);
+        Result<Stock> actual = service.saveStock(arg, Set.of(), Set.of());
         assertEquals(ResultType.INVALID, actual.getType());
         assertEquals(1, actual.getErrorMessages().size());
-        assertEquals("symbol must be unique", actual.getErrorMessages().get(0));
+        assertEquals("Symbol must be unique.", actual.getErrorMessages().get(0));
     }
 }

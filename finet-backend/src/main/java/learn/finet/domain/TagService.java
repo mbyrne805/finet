@@ -24,7 +24,11 @@ public class TagService {
     }
 
     public Result<Tag> saveTag(Tag tag) {
-        Result<Tag> result = new Result<>();
+        Result<Tag> result = validate(tag);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
         Optional<Tag> existingTag = tagRepository.findTagByName(tag.getName());
 
         if (existingTag.isPresent()) {
@@ -36,6 +40,24 @@ public class TagService {
 
         Tag savedTag = tagRepository.save(tag);
         result.setPayload(savedTag);
+        return result;
+    }
+
+    private Result<Tag> validate(Tag tag) {
+        Result<Tag> result = new Result<>();
+        if (tag == null) {
+            result.addErrorMessage("Tag cannot be null.");
+            return result;
+        }
+
+        if (tag.getName() == null || tag.getName().isBlank()) {
+            result.addErrorMessage("Name is required.");
+        }
+
+        if (tag.getName() != null && tag.getName().length() > 20) {
+            result.addErrorMessage("Name must be 20 characters or less.");
+        }
+
         return result;
     }
 }

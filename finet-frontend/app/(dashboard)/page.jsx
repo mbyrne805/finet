@@ -217,6 +217,10 @@ export default function HomePage() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   setTags(prevTags => [...(prevTags || []), e.target.value]);
+                }
+              }}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
                   e.target.value = '';
                 }
               }}
@@ -231,25 +235,35 @@ export default function HomePage() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   setStocks(prevStocks => [...(prevStocks || []), e.target.value]);
+                }
+              }}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
                   e.target.value = '';
                 }
               }}
             />
           </Grid>
-          <Grid size={6} sx={{padding: 1}}>
-            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
-              {tags && tags.map((tag, index) => (
-                <Chip key={index} label={tag} sx={{ margin: 0.5 }} />
-              ))}
-            </Stack>
-          </Grid>
-          <Grid size={6} sx={{padding: 1}}>
-            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
-              {stocks && stocks.map((stock, index) => (
-                <Chip key={index} label={stock} sx={{ margin: 0.5 }} />
-              ))}
-            </Stack>
-          </Grid>
+          {
+            tags &&
+            <Grid size={6} sx={{padding: 1}}>
+              <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+                {tags.map((tag, index) => (
+                  <Chip key={index} label={tag} sx={{ margin: 0.5 }} />
+                ))}
+              </Stack>
+            </Grid>
+          }
+          {
+            stocks &&
+            <Grid size={6} sx={{padding: 1}}>
+              <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+                {stocks.map((stock, index) => (
+                  <Chip key={index} label={stock} sx={{ margin: 0.5 }} />
+                ))}
+              </Stack>
+            </Grid>
+          }
           <Grid size={12} sx={{padding: 1}}>
             <Button 
               fullWidth 

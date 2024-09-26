@@ -30,17 +30,6 @@ public class StockService {
         return stockRepository.findAll();
     }
 
-    public Result<Stock> save(Stock stock) {
-        Result<Stock> result = validate(stock);
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        Stock s = stockRepository.save(stock);
-        result.setPayload(s);
-        return result;
-    }
-
     public Result<Stock> saveStock(Stock stock, Set<String> tagNames, Set<String> relatedStockSymbols) {
         Result<Stock> result = validate(stock);
         if (!result.isSuccess()) {
