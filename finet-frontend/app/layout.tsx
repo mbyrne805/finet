@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Suspense } from 'react';
 import { AppProvider } from '@toolpad/core/nextjs';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
@@ -32,23 +33,20 @@ const BRANDING = {
 
 
 export default function RootLayout(props: { children: React.ReactNode }) {
-  
-
   return (
     <html lang="en" data-toolpad-color-scheme="light" suppressHydrationWarning>
       <body>
-
+        <Suspense>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             <AppProvider
               navigation={NAVIGATION}
               branding={BRANDING}
-              
               theme={theme}
             >
               {props.children}
             </AppProvider>
           </AppRouterCacheProvider>
-        
+        </Suspense>
       </body>
     </html>
   );
