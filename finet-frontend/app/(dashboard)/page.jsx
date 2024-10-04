@@ -37,7 +37,7 @@ export default function HomePage() {
   };
 
   const addStockToNetwork = () => {
-    fetch("http://localhost:8080/api/stock", {
+    fetch("http://finet-backend-env.eba-bshas2mc.us-east-2.elasticbeanstalk.com/api/stock", {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json'
