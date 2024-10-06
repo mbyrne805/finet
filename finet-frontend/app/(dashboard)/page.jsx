@@ -37,7 +37,7 @@ export default function HomePage() {
   };
 
   const addStockToNetwork = () => {
-    fetch("http://finet-backend-env.eba-bshas2mc.us-east-2.elasticbeanstalk.com/api/stock", {
+    fetch("https://peaceful-escarpment-47280-c10b58068392.herokuapp.com/api/stock", {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json'

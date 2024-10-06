@@ -25,7 +25,7 @@ export default function Home() {
     const nodeData = nodes.find(n => n.id === node.id)?.data || {};
     console.log(nodeData.stockId);
     if (type === 'stock') {
-      fetch(`http://finet-backend-env.eba-bshas2mc.us-east-2.elasticbeanstalk.com/${symbol}`, {
+      fetch(`https://peaceful-escarpment-47280-c10b58068392.herokuapp.com/${symbol}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export default function Home() {
     } else if (type === 'tag') {
       const name = symbol;
       console.log(nodeData);
-      fetch(`http://finet-backend-env.eba-bshas2mc.us-east-2.elasticbeanstalk.com/${name}`, {
+      fetch(`https://peaceful-escarpment-47280-c10b58068392.herokuapp.com/${name}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export default function Home() {
       return;
     }
     isMounted.current = true;
-    fetch('http://finet-backend-env.eba-bshas2mc.us-east-2.elasticbeanstalk.com/api/stock')
+    fetch('https://peaceful-escarpment-47280-c10b58068392.herokuapp.com/api/stock')
       .then(response => response.json())
       .then(data => {
         const newNodes = [];
