@@ -21,6 +21,7 @@ export default function HomePage() {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const [failureMessage, setFailureMessage] = React.useState("");
+  const [fetchFailure, setFetchFailure] = React.useState(false);
 
   const avKey = process.env.NEXT_PUBLIC_AV_KEY;
 
@@ -30,7 +31,11 @@ export default function HomePage() {
         .then(response => response.json())
         .then((data) => {
           console.log(data);
-          setStockData(data)
+          if (data['Monthly Time Series']) {
+            setStockData(data)
+          } else {
+            setFetchFailure(true);
+          }
         })
         .catch(error => console.log('Error fetching stock data:'));
     }
@@ -87,6 +92,7 @@ export default function HomePage() {
               }
             }}
           />
+          {fetchFailure && <Alert severity="error" onClose={() => setFetchFailure(false)}>Failed to fetch stock data - please use valid symbol.</Alert>}
         </Grid>
         {stockData && stockData != [] && <>
           <Grid size={12} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
