@@ -33,8 +33,10 @@ export default function HomePage() {
           console.log(data);
           if (data['Monthly Time Series']) {
             setStockData(data)
+            setFetchFailure(false);
           } else {
             setFetchFailure(true);
+            setStock(null);
           }
         })
         .catch(error => console.log('Error fetching stock data:'));
